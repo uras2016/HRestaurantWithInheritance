@@ -91,7 +91,7 @@ public class OrderController {
         return orderDao.findAllClosedOrders();
     }
 
-    public Orders testCreateDishWithIceCream(){  // при помощи CASCADE нет необходимости сначала записывать новое блюдо в БД,
+    public Orders testCreateDishWithIceCream() {  // при помощи CASCADE нет необходимости сначала записывать новое блюдо в БД,
                                                 // а потом уже создавать новый ордер
         List<Dish> iceDishes = new ArrayList<>();
         Dish iceCream = new Dish();
