@@ -54,7 +54,6 @@ public class Main {
 
 
     private void start() {
-        employeeController.printEmployee(1L);
 
         System.out.println("--------------------Employee-----------------------------");
 
@@ -64,6 +63,9 @@ public class Main {
         System.out.println("Find by name 'Sasha': " + employeeController.getEmployeesByName("Sasha"));
         System.out.println("All employees : ");employeeController.getAllEmployees().forEach(System.out::println);
 //        employeeController.removeEmployee(employeeController.getEmployeesByName("Sasha"));
+
+
+        System.out.println("Print employee #1:" );employeeController.printEmployee(1L);
 
         System.out.println("--------------------Ingredients-------------------------------");
 
@@ -134,7 +136,9 @@ public class Main {
         System.out.println(warehouseController.findEndsIngredients());
 //        warehouseController.remove(warehouseController.findByName("rice"));
 
-
+        orderController.closeOrder(orderController.findById(3L));
+//        orderController.findOpenedOrders();
+//        orderController.findClosedOrders();
     }
 
 

@@ -5,10 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.goit.java.hibernate.dao.DishDao;
 import ua.goit.java.hibernate.dao.EmployeeDao;
 import ua.goit.java.hibernate.dao.OrderDao;
-import ua.goit.java.hibernate.model.Dish;
-import ua.goit.java.hibernate.model.DishCategory;
-import ua.goit.java.hibernate.model.Measures;
-import ua.goit.java.hibernate.model.Orders;
+import ua.goit.java.hibernate.model.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +26,7 @@ public class OrderController {
         order.setDishes(createDishes(dishes));
         order.setTableNumber(tableNumber);
         order.setOrderDate(new Date());
+        order.isOpen();
 
         return order;
     }
@@ -91,6 +89,8 @@ public class OrderController {
         return orderDao.findAllClosedOrders();
     }
 
+
+    @Transactional
     public Orders testCreateDishWithIceCream() {  // при помощи CASCADE нет необходимости сначала записывать новое блюдо в БД,
                                                 // а потом уже создавать новый ордер
         List<Dish> iceDishes = new ArrayList<>();

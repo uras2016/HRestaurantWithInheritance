@@ -25,6 +25,7 @@ public class Dish {
     @Enumerated(EnumType.STRING)
     private Measures measure;
 
+
     @ManyToMany(fetch = FetchType.EAGER)  // выбирает из БД все сразу
     @JoinTable(
             name = "dish_ingredients",

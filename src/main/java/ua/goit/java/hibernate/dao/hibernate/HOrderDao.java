@@ -63,20 +63,23 @@ public class HOrderDao implements OrderDao {
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
     public void closeOrder(Orders order) {
-        order.setOpenStatus(false);
-        List<PreparedDish> allPreparedDishes = new ArrayList<>();
+        if (order.isOpen()) {
+            order.setOpenStatus(false);
 
-        for (Dish dish : order.getDishes()) {
-            PreparedDish preparedDish = new PreparedDish();
-            preparedDish.setDish(dish);
-            preparedDish.setDate(order.getOrderDate());
-            preparedDish.setCooker(order.getWaiter());
+            List<PreparedDish> allPreparedDishes = new ArrayList<>();
 
-            allPreparedDishes.add(preparedDish);
+            for (Dish dish : order.getDishes()) {
+                PreparedDish preparedDish = new PreparedDish();
+                preparedDish.setDish(dish);
+                preparedDish.setDate(order.getOrderDate());
+                preparedDish.setCooker(order.getWaiter());
+
+                allPreparedDishes.add(preparedDish);
+            }
+
+            order.setPreparedDishes(allPreparedDishes);
+            sessionFactory.getCurrentSession().saveOrUpdate(order);
         }
-
-        order.setPreparedDishes(allPreparedDishes);
-        sessionFactory.getCurrentSession().saveOrUpdate(order);
     }
 
     @Override
