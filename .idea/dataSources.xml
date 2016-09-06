@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="305132310">
+  <component name="DataSourceManagerImpl" format="xml" hash="2871972225">
     <data-source source="LOCAL" name="PostgreSQL - restaurantHibernate@localhost" uuid="40ebeaf2-07b8-428e-9d16-2a58ade7ff5e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>

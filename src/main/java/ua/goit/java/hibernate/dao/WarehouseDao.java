@@ -12,4 +12,6 @@ public interface WarehouseDao {
     Warehouse findByName(String name);
     List<Warehouse> findAll();
     List<Warehouse> findEndsIngredients();
+
+    void removeAllWarehouse();
 }

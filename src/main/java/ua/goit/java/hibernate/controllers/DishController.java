@@ -30,7 +30,7 @@ public class DishController {
     }
 
     @Transactional
-    public void createDishes() {
+    public void initDishes() {
         Set<Dish> allDishes= new HashSet<>(dishDao.findAll());
 
         List<Ingredient> plovIngredients = new ArrayList<>();
@@ -85,6 +85,11 @@ public class DishController {
     }
 
 
+@Transactional
+    public void removeAllDishes() {
+        dishDao.removeAllDishes();
+    }
+
 
     private List<Ingredient> createIngredients(List<String> ingredients) {
 
@@ -95,7 +100,6 @@ public class DishController {
         return result;
     }
 
-
     public void setDishDao(DishDao dishDao) {
         this.dishDao = dishDao;
     }
@@ -103,4 +107,6 @@ public class DishController {
     public void setIngredientDao(IngredientDao ingredientDao) {
         this.ingredientDao = ingredientDao;
     }
+
+
 }

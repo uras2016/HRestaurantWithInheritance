@@ -6,6 +6,8 @@ import ua.goit.java.hibernate.dao.DishDao;
 import ua.goit.java.hibernate.dao.EmployeeDao;
 import ua.goit.java.hibernate.dao.OrderDao;
 import ua.goit.java.hibernate.model.Dish;
+import ua.goit.java.hibernate.model.DishCategory;
+import ua.goit.java.hibernate.model.Measures;
 import ua.goit.java.hibernate.model.Orders;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class OrderController {
         return order;
     }
     @Transactional
-    public void addOrders(){
+    public void initOrders(){
 
         List<String> dishesFirst = new ArrayList<>();
         dishesFirst.add("Plov");
@@ -44,6 +46,9 @@ public class OrderController {
         dishesSecond.add("Plov");
 
         orderDao.save(createOrder("Ivan", dishesSecond, 5));
+
+
+        orderDao.save(testCreateDishWithIceCream());  // use CASCADE to save new dish in new order
     }
     @Transactional
     public void addNewOrder(Orders order) {
@@ -86,6 +91,26 @@ public class OrderController {
         return orderDao.findAllClosedOrders();
     }
 
+    public Orders testCreateDishWithIceCream(){  // при помощи CASCADE нет необходимости сначала записывать новое блюдо в БД,
+                                                // а потом уже создавать новый ордер
+        List<Dish> iceDishes = new ArrayList<>();
+        Dish iceCream = new Dish();
+        iceCream.setName("Ice Cream");
+        iceCream.setCategory(DishCategory.DESSERT);
+        iceCream.setPrice(3.0F);
+        iceCream.setWeight(100.0F);
+        iceCream.setMeasure(Measures.KG);
+        iceDishes.add(iceCream);
+
+        Orders order = new Orders();
+        order.setWaiter(employeeDao.findByName("Ivan"));
+        order.setDishes(iceDishes);
+        order.setTableNumber(99);
+        order.setOrderDate(new Date());
+
+
+        return order;
+    }
 
 
 
@@ -104,6 +129,10 @@ public class OrderController {
     public void printAllOrders() {
         getAllOrders().forEach(System.out::println);
 
+    }
+    @Transactional
+    public void removeAllOrders() {
+        orderDao.removeAllOrders();
     }
 
     private List<Dish> createDishes(List<String> dishes) {

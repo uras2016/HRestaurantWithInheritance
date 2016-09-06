@@ -51,6 +51,12 @@ public class WarehouseController {
     public void setWarehouseDao(WarehouseDao warehouseDao) {
         this.warehouseDao = warehouseDao;
     }
+
+    @Transactional
+    public void removeAllWarehouse() {
+        warehouseDao.removeAllWarehouse();
+
+    }
 }
 
 

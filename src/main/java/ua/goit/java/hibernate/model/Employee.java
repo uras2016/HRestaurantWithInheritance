@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employee")      // обьясняем на какую таблицу мапить
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // задаем наследование
 public class Employee {
     @Id
     @Column(name = "id")      // на какую колонку

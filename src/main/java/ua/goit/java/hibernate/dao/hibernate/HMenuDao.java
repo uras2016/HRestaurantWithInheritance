@@ -55,6 +55,14 @@ public class HMenuDao implements MenuDao{
     @Transactional
     public List<Menu> findAll() {
         return sessionFactory.getCurrentSession().createQuery("select m from Menu m").list();
+
+    }
+
+
+    @Override
+    @Transactional
+    public void removeAllMenus() {
+        sessionFactory.getCurrentSession().createQuery("delete from Menu").executeUpdate();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

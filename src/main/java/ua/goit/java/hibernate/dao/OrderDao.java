@@ -17,4 +17,5 @@ public interface OrderDao {
     List<Orders> findAllOpenedOrders();
     List<Orders> findAllClosedOrders();
 
+    void removeAllOrders();
 }

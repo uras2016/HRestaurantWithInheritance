@@ -98,6 +98,12 @@ public class HOrderDao implements OrderDao {
         return sessionFactory.getCurrentSession().createQuery("select o from Orders o").list();
     }
 
+    @Override
+    @Transactional
+    public void removeAllOrders() {
+        sessionFactory.getCurrentSession().createQuery("delete from Orders").executeUpdate();
+    }
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

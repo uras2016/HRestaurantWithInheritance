@@ -22,7 +22,7 @@ public class IngredientController {
     return ingredient;
     }
     @Transactional
-    public void createIngredients(){
+    public void initIngredients(){
         Ingredient water = createIngredient("water");
         Ingredient salt = createIngredient("salt");
         Ingredient flower = createIngredient("flower");
@@ -86,6 +86,10 @@ public class IngredientController {
     @Transactional
     public Ingredient findByName(String name) {
         return ingredientDao.findByName(name);
+    }
+    @Transactional
+    public void removeAllIngredients() {
+        ingredientDao.removeAllIngredients();
     }
 
     public void setIngredientDao(IngredientDao ingredientDao) {

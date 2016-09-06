@@ -26,7 +26,7 @@ public class MenuController {
     }
 
     @Transactional
-    public void createMenus(){
+    public void initMenus(){
         Set<Menu> allMenus = new HashSet<>(menuDao.findAll());
 
         List<Dish> banketDishes = new ArrayList<>();
@@ -77,6 +77,10 @@ public class MenuController {
         return menuDao.findAll();
     }
 
+    @Transactional
+    public void removeAllMenus() {
+        menuDao.removeAllMenus();
+    }
 
     public void setMenuDao(MenuDao menuDao) {
         this.menuDao = menuDao;

@@ -10,4 +10,6 @@ public interface IngredientDao {
 
     List<Ingredient> findAllIngredients();
     Ingredient findByName(String name);
+
+    void removeAllIngredients();
 }

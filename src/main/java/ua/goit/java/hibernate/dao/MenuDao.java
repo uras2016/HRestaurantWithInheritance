@@ -13,4 +13,6 @@ public interface MenuDao {
     void deleteDish(Dish dish, Menu menu/*TODO:List<Dish>*/);
     Menu getByName(String name);
     List<Menu> findAll();
+
+    void removeAllMenus();
 }

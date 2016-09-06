@@ -39,6 +39,11 @@ public class HIngredientDao implements IngredientDao{
         return (Ingredient) query.uniqueResult();
     }
 
+    @Override
+    public void removeAllIngredients() {
+        sessionFactory.getCurrentSession().createQuery("delete from Ingredient").executeUpdate();
+    }
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

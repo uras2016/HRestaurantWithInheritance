@@ -59,6 +59,12 @@ public class HWarehouseDao implements WarehouseDao {
         return sessionFactory.getCurrentSession().createQuery("select w from Warehouse w where w.quantity < 10").list();
     }
 
+    @Override
+    @Transactional
+    public void removeAllWarehouse() {
+        sessionFactory.getCurrentSession().createQuery("delete from Warehouse").executeUpdate();
+    }
+
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

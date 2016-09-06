@@ -23,6 +23,9 @@ public class Main {
     @Autowired
     private WarehouseController warehouseController;
 
+
+    private boolean reInit;
+
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context-annotation.xml", "hibernate-context.xml");
             Main main = applicationContext.getBean(Main.class); // регистрируем меин метод
@@ -30,25 +33,47 @@ public class Main {
 
     }
 
+    public void init(){    // будет запускаться каждый раз
+        if (reInit) {
+            orderController.removeAllOrders();
+            dishController.removeAllDishes();
+            ingredientController.removeAllIngredients();
+            menuController.removeAllMenus();
+            warehouseController.removeAllWarehouse();
+            employeeController.removeAllEmployees();
+
+            employeeController.initEmployees();
+            ingredientController.initIngredients();
+            dishController.initDishes();
+            menuController.initMenus();
+            orderController.initOrders();
+
+        }
+    }
+
+
+
     private void start() {
+        employeeController.printEmployee(1L);
 
         System.out.println("--------------------Employee-----------------------------");
 
-        employeeController.createEmployees();
+
+//        employeeController.initEmployees();
         employeeController.addNewEmployee(employeeController.bornEmployee("Sasha","Beliy", 7777777, Position.MANAGER, 99999999.0F, "2001-10-01"));
-//        System.out.println("Find by name 'Sasha': " + employeeController.getEmployeesByName("Sasha"));
+        System.out.println("Find by name 'Sasha': " + employeeController.getEmployeesByName("Sasha"));
         System.out.println("All employees : ");employeeController.getAllEmployees().forEach(System.out::println);
 //        employeeController.removeEmployee(employeeController.getEmployeesByName("Sasha"));
 
         System.out.println("--------------------Ingredients-------------------------------");
 
-        ingredientController.createIngredients();
+//        ingredientController.initIngredients();
         ingredientController.addNewIngredient(ingredientController.createIngredient("sugar"));
 //        ingredientController.removeIngredient(ingredientController.findByName("sugar"));
         System.out.println("All ingredients : "); ingredientController.findAllIngredients().forEach(System.out::println);
         System.out.println("--------------------Dishes-------------------------------");
 
-        dishController.createDishes();
+//        dishController.initDishes();
         List<Ingredient> cakeIngredients = new ArrayList<>();
         cakeIngredients.add(ingredientController.findByName("water"));
         cakeIngredients.add(ingredientController.findByName("sugar"));
@@ -62,7 +87,7 @@ public class Main {
 
         System.out.println("--------------------Menu---------------------------------");
 //
-        menuController.createMenus();
+//        menuController.createMenus();
         List<Dish> desertDishes = new ArrayList<>();
         desertDishes.add(dishController.getDishByName("Cake"));
         menuController.addNewMenu(menuController.prepareMenu("Deserts", desertDishes));
@@ -75,7 +100,7 @@ public class Main {
 
         System.out.println("--------------------Orders-------------------------------");
 
-        orderController.addOrders();
+//        orderController.addOrders();
         List<String> dishesForSasha = new ArrayList<>();
         dishesForSasha.add("Salad");
         orderController.addNewOrder(orderController.createOrder("Sasha",dishesForSasha,1));
@@ -109,6 +134,7 @@ public class Main {
         System.out.println(warehouseController.findEndsIngredients());
 //        warehouseController.remove(warehouseController.findByName("rice"));
 
+
     }
 
 
@@ -134,6 +160,14 @@ public class Main {
 
     public void setWarehouseController(WarehouseController warehouseController) {
         this.warehouseController = warehouseController;
+    }
+
+    public boolean isReInit() {
+        return reInit;
+    }
+
+    public void setReInit(boolean reInit) {
+        this.reInit = reInit;
     }
 }
 

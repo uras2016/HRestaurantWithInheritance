@@ -39,6 +39,12 @@ public class HEmployeeDao implements EmployeeDao {
 
     @Override
     @Transactional
+    public void removeAllEmployees() {
+        sessionFactory.getCurrentSession().createQuery("delete from Employee").executeUpdate();
+    }
+
+    @Override
+    @Transactional
     public List<Employee> findAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select e from Employee e").list();   // select* from employee
@@ -48,9 +54,9 @@ public class HEmployeeDao implements EmployeeDao {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    //    @Override
-//    @Transactional
-//    public Employee load(Long id) {
-//        return null;
-//    }
+        @Override
+    @Transactional
+    public Employee load(Long id) {
+        return sessionFactory.getCurrentSession().load(Employee.class, id);
+    }
 }

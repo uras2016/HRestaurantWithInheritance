@@ -38,6 +38,12 @@ public class HDishDao implements DishDao{
 
     @Override
     @Transactional
+    public void removeAllDishes() {
+        sessionFactory.getCurrentSession().createQuery("delete from Dish").executeUpdate();
+    }
+
+    @Override
+    @Transactional
     public void remove(Dish dish) {
             sessionFactory.getCurrentSession().delete(dish);
         }

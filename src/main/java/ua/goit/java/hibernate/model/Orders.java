@@ -103,7 +103,7 @@ public class Orders {
     public String toString() {
         return "Orders{" +
                 "id=" + id +
-                ", waiter=" + waiter +
+//                ", waiter=" + waiter +
                 ", dishes=" + dishes +
                 ", tableNumber=" + tableNumber +
                 ", orderDate=" + orderDate +
