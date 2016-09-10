@@ -3,6 +3,7 @@ package ua.goit.java.hibernate.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.java.hibernate.dao.DishDao;
+import ua.goit.java.hibernate.dao.EmployeeDao;
 import ua.goit.java.hibernate.dao.IngredientDao;
 import ua.goit.java.hibernate.model.*;
 
@@ -17,8 +18,10 @@ public class DishController {
     private DishDao dishDao;
     @Autowired
     private IngredientDao ingredientDao;
+    @Autowired
+    private EmployeeDao employeeDao;
 
-    public Dish prepareDish(String name, DishCategory category, Float price, Float weight, Measures measure, List<Ingredient> ingredients) {
+    public Dish prepareDish(String name, DishCategory category, Float price, Float weight, Measures measure, List<Ingredient> ingredients, Employee cooker) {
         Dish dish = new Dish();
         dish.setName(name);
         dish.setCategory(category);
@@ -26,6 +29,7 @@ public class DishController {
         dish.setWeight(weight);
         dish.setMeasure(measure);
         dish.setIngredients(ingredients);
+        dish.setCooker(cooker);
         return dish;
     }
 
@@ -37,16 +41,16 @@ public class DishController {
         plovIngredients.add(ingredientDao.findByName("water"));
         plovIngredients.add(ingredientDao.findByName("rice"));
         plovIngredients.add(ingredientDao.findByName("salt"));
-       Dish plov = prepareDish("Plov", DishCategory.MAIN, 5.00F, 0.250F, Measures.KG, plovIngredients);
+       Dish plov = prepareDish("Plov", DishCategory.MAIN, 5.00F, 0.250F, Measures.KG, plovIngredients,employeeDao.findByName("John"));
         List<Ingredient> milkIngredients = new ArrayList<>();
         milkIngredients.add(ingredientDao.findByName("water"));
         milkIngredients.add(ingredientDao.findByName("flower"));
-       Dish milk = prepareDish("Milk", DishCategory.MAIN, 1.00F, 0.150F, Measures.LITER, milkIngredients);
+       Dish milk = prepareDish("Milk", DishCategory.MAIN, 1.00F, 0.150F, Measures.LITER, milkIngredients, employeeDao.findByName("John"));
         List<Ingredient> saladIngredients = new ArrayList<>();
         saladIngredients.add(ingredientDao.findByName("oil"));
         saladIngredients.add(ingredientDao.findByName("tomato"));
         saladIngredients.add(ingredientDao.findByName("feta"));
-        Dish salad = prepareDish("Salad", DishCategory.SALAD, 2.00F, 0.200F, Measures.KG, saladIngredients);
+        Dish salad = prepareDish("Salad", DishCategory.SALAD, 2.00F, 0.200F, Measures.KG, saladIngredients, employeeDao.findByName("John"));
 
         if (!allDishes.contains(plov)){
             addNewDish(plov);

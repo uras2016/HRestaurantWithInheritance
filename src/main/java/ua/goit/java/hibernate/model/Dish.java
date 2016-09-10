@@ -24,7 +24,9 @@ public class Dish {
     @Column(name = "measure")
     @Enumerated(EnumType.STRING)
     private Measures measure;
-
+    @OneToOne
+    @JoinColumn(name = "cook_id")
+    private Employee cooker;
 
     @ManyToMany(fetch = FetchType.EAGER)  // выбирает из БД все сразу
     @JoinTable(
@@ -84,6 +86,14 @@ public class Dish {
         this.measure = measure;
     }
 
+    public Employee getCooker() {
+        return cooker;
+    }
+
+    public void setCooker(Employee cooker) {
+        this.cooker = cooker;
+    }
+
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -126,6 +136,7 @@ public class Dish {
                 ", price=" + price +
                 ", weight=" + weight +
                 ", measure=" + measure +
+                ", cooker=" + cooker +
                 ", ingredients=" + ingredients +
                 '}';
     }

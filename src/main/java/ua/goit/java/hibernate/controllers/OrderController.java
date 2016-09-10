@@ -5,7 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.goit.java.hibernate.dao.DishDao;
 import ua.goit.java.hibernate.dao.EmployeeDao;
 import ua.goit.java.hibernate.dao.OrderDao;
-import ua.goit.java.hibernate.model.*;
+import ua.goit.java.hibernate.model.Dish;
+import ua.goit.java.hibernate.model.DishCategory;
+import ua.goit.java.hibernate.model.Measures;
+import ua.goit.java.hibernate.model.Orders;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +21,9 @@ public class OrderController {
     private DishDao dishDao;
     @Autowired
     private OrderDao orderDao;
+//    @Autowired
+//    private CookDao cookDao;
+
 
     public Orders createOrder(String waiterName, List<String> dishes, int tableNumber){
 
@@ -26,7 +32,7 @@ public class OrderController {
         order.setDishes(createDishes(dishes));
         order.setTableNumber(tableNumber);
         order.setOrderDate(new Date());
-        order.isOpen();
+//        order.setCook(cookDao.getById(cookId));
 
         return order;
     }
@@ -100,6 +106,7 @@ public class OrderController {
         iceCream.setPrice(3.0F);
         iceCream.setWeight(100.0F);
         iceCream.setMeasure(Measures.KG);
+        iceCream.setCooker(employeeDao.findByName("John"));
         iceDishes.add(iceCream);
 
         Orders order = new Orders();
@@ -107,6 +114,7 @@ public class OrderController {
         order.setDishes(iceDishes);
         order.setTableNumber(99);
         order.setOrderDate(new Date());
+//        order.setCook(cookDao.getById(3L));
 
 
         return order;

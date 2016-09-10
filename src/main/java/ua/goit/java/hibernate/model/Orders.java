@@ -20,6 +20,12 @@ public class Orders {
     @JoinColumn(name = "employee_id")   /*в колонку employee_id будем заносить айдишники емплоии*/
     private Employee waiter;
 
+
+//    @ManyToOne
+//    @JoinColumn(name = "cook_id")
+//    private Cook cook;
+
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)             /* нужна третья таблица    в несколько ордеров могут входить много диш, несколько диш могут входить в разные ордеры*/
     @JoinTable(
             name = "dish_to_order",     /*имя третей таблицы*/
@@ -98,6 +104,14 @@ public class Orders {
     public void setPreparedDishes(List<PreparedDish> preparedDishes) {
         this.preparedDishes = preparedDishes;
     }
+//
+//    public Cook getCook() {
+//        return cook;
+//    }
+//
+//    public void setCook(Cook cook) {
+//        this.cook = cook;
+//    }
 
     @Override
     public String toString() {

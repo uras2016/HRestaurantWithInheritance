@@ -28,7 +28,7 @@ public class Cook extends Employee{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Waiter {\n");
+        sb.append("Cook {\n");
         sb.append("   ID = ").append(getId()).append("\n");
         sb.append("   name = ").append(getName()).append("\n");
         sb.append("   surname = ").append(getSurname()).append("\n");

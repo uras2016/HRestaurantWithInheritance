@@ -62,9 +62,9 @@ public class PreparedDish {
     public String toString() {
         return "PreparedDish{" +
                 "id=" + id +
-                ", cooker=" + cooker +
-                ", dish=" + dish +
-                ", date=" + date +
+//                ", cooker=" + cooker +
+//                ", dish=" + dish +
+//                ", date=" + date +
                 '}';
     }
 }

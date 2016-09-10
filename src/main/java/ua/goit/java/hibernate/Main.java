@@ -22,6 +22,8 @@ public class Main {
     private IngredientController ingredientController;
     @Autowired
     private WarehouseController warehouseController;
+    @Autowired
+    private KitchenHistoryController kitchenHistoryController;
 
 
     private boolean reInit;
@@ -41,6 +43,7 @@ public class Main {
             menuController.removeAllMenus();
             warehouseController.removeAllWarehouse();
             employeeController.removeAllEmployees();
+            kitchenHistoryController.removeAllPreparedDishes();
 
             employeeController.initEmployees();
             ingredientController.initIngredients();
@@ -54,7 +57,6 @@ public class Main {
 
 
     private void start() {
-
         System.out.println("--------------------Employee-----------------------------");
 
 
@@ -80,7 +82,7 @@ public class Main {
         cakeIngredients.add(ingredientController.findByName("water"));
         cakeIngredients.add(ingredientController.findByName("sugar"));
         cakeIngredients.add(ingredientController.findByName("salt"));
-        Dish cake = dishController.prepareDish("Cake", DishCategory.DESSERT, 8.00F, 1.0F, Measures.PIECE, cakeIngredients);
+        Dish cake = dishController.prepareDish("Cake", DishCategory.DESSERT, 8.00F, 1.0F, Measures.PIECE, cakeIngredients, employeeController.getEmployeesByName("John"));
         dishController.addNewDish(cake);
 //        System.out.println("Find by name 'Cake': " + dishController.getDishByName("Cake"));
 
@@ -136,9 +138,51 @@ public class Main {
         System.out.println(warehouseController.findEndsIngredients());
 //        warehouseController.remove(warehouseController.findByName("rice"));
 
-        orderController.closeOrder(orderController.findById(3L));
 //        orderController.findOpenedOrders();
 //        orderController.findClosedOrders();
+        System.out.println("--------------------With inheritance-------------------------------");
+
+
+        Employee waiter = new Waiter();
+        waiter.setName("Hector");
+        waiter.setSurname("Monatic");
+        waiter.setPosition(Position.WAITER);
+        waiter.setTelephone(556815311);
+        waiter.setSalary(5555.5F);
+        waiter.setBirthday("05-08-2012");
+        employeeController.addNewEmployee(waiter);
+        System.out.println("Waiter Hector was employed");
+
+        Employee cooker = new Cook();
+        cooker.setName("Vova");
+        cooker.setSurname("Winner");
+        cooker.setPosition(Position.COOKER);
+        cooker.setTelephone(551311);
+        cooker.setSalary(55555F);
+        cooker.setBirthday("05-05-2014");
+        employeeController.addNewEmployee(cooker);
+        System.out.println("Cooker Vova was employed");
+
+        List<Ingredient> difloppeIngredients = new ArrayList<>();
+        cakeIngredients.add(ingredientController.findByName("tomato"));
+        cakeIngredients.add(ingredientController.findByName("feta"));
+        cakeIngredients.add(ingredientController.findByName("oil"));
+
+        System.out.println("Ingredients were added");
+//        employeeController.getEmployeesByName("Vova");
+        Dish difloppe = dishController.prepareDish("Difloppe", DishCategory.MAIN, 190.00F, 0.05F, Measures.KG, difloppeIngredients, employeeController.getEmployeesByName("Vova"));
+        System.out.println("DISH");
+        dishController.addNewDish(difloppe);
+        System.out.println("Dish created");
+
+        List<String> dishesForHector = new ArrayList<>();
+        dishesForHector.add("Difloppe");
+
+        orderController.addNewOrder(orderController.createOrder("Hector",dishesForHector,10));
+        System.out.println("Order created");
+//
+//        orderController.closeOrder(orderController.findById(5L));
+
     }
 
 
@@ -172,6 +216,10 @@ public class Main {
 
     public void setReInit(boolean reInit) {
         this.reInit = reInit;
+    }
+
+    public void setKitchenHistoryController(KitchenHistoryController kitchenHistoryController) {
+        this.kitchenHistoryController = kitchenHistoryController;
     }
 }
 
