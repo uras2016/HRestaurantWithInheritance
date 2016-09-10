@@ -62,7 +62,7 @@ public class Main {
 
 //        employeeController.initEmployees();
         employeeController.addNewEmployee(employeeController.bornEmployee("Sasha","Beliy", 7777777, Position.MANAGER, 99999999.0F, "2001-10-01"));
-        System.out.println("Find by name 'Sasha': " + employeeController.getEmployeesByName("Sasha"));
+        System.out.println("Find by name 'Sasha' : " + employeeController.getEmployeesByName("Sasha"));
         System.out.println("All employees : ");employeeController.getAllEmployees().forEach(System.out::println);
 //        employeeController.removeEmployee(employeeController.getEmployeesByName("Sasha"));
 
