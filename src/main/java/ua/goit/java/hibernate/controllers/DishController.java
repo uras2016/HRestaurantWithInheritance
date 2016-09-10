@@ -74,6 +74,7 @@ public class DishController {
         }
     }
 
+
     @Transactional
     public void removeDish(Dish dish) {
         dishDao.remove(dish);

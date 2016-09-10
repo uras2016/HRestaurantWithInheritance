@@ -35,7 +35,7 @@ public class Cook extends Employee{
         sb.append("   telephone = ").append(getTelephone()).append("\n");
         sb.append("   position = ").append(getPosition()).append("\n");
         sb.append("   salary = ").append(getSalary()).append("\n");
-        sb.append("   orders = {\n");
+        sb.append("   prepared dishes = {\n");
         preparedDishes.forEach(dish -> sb.append("   ").append(dish).append("\n"));
         sb.append("   }\n");
         sb.append("}\n");

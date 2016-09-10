@@ -1,11 +1,11 @@
 package ua.goit.java.hibernate.dao.hibernate;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.java.hibernate.dao.WarehouseDao;
-import ua.goit.java.hibernate.model.Ingredient;
 import ua.goit.java.hibernate.model.Warehouse;
 
 import java.util.List;
@@ -31,12 +31,14 @@ public class HWarehouseDao implements WarehouseDao {
 
     @Override
     @Transactional
-    public void changeQuantityOfIngredients(String ingredientName, Float quantity) {
-        Query query = sessionFactory.getCurrentSession().createQuery(
-                "update Warehouse set quantity = :quantity where ingredient.name = :ingredientName");
-        query.setParameter("quantity", quantity);
-        query.setParameter("ingredientName", ingredientName);
-        query.executeUpdate();
+    public void changeQuantityOfIngredients(Long id, Float newQuantity) {
+        Warehouse warehouseIngredient = getWarehouseIngredientById(id);
+        warehouseIngredient.setQuantity(newQuantity);
+
+//        if (newQuantity == 0) remove(getWarehouseIngredientById(id));
+
+        sessionFactory.getCurrentSession().update(warehouseIngredient);
+
     }
 
     @Override
@@ -63,6 +65,13 @@ public class HWarehouseDao implements WarehouseDao {
     @Transactional
     public void removeAllWarehouse() {
         sessionFactory.getCurrentSession().createQuery("delete from Warehouse").executeUpdate();
+    }
+@Transactional
+    public Warehouse getWarehouseIngredientById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Warehouse i where i.ingredient.id = :id");
+        query.setParameter("id", id);
+        return (Warehouse) query.uniqueResult();
     }
 
     public SessionFactory getSessionFactory() {

@@ -50,7 +50,7 @@ public class Main {
             dishController.initDishes();
             menuController.initMenus();
             orderController.initOrders();
-
+            warehouseController.initWarehouseIngredients();
         }
     }
 
@@ -71,8 +71,13 @@ public class Main {
 
         System.out.println("--------------------Ingredients-------------------------------");
 
-//        ingredientController.initIngredients();
-        ingredientController.addNewIngredient(ingredientController.createIngredient("sugar"));
+        Ingredient sugar = ingredientController.createIngredient("sugar");
+        ingredientController.addNewIngredient(sugar);
+        Warehouse sugarWarehouse = new Warehouse();
+        sugarWarehouse.setIngredient(sugar);
+        sugarWarehouse.setQuantity(1000F);
+        sugarWarehouse.setMeasure(Measures.KG);
+        warehouseController.create(sugarWarehouse);
 //        ingredientController.removeIngredient(ingredientController.findByName("sugar"));
         System.out.println("All ingredients : "); ingredientController.findAllIngredients().forEach(System.out::println);
         System.out.println("--------------------Dishes-------------------------------");
@@ -120,26 +125,14 @@ public class Main {
 
         System.out.println("--------------------Warehouse-------------------------------");
 
-        Warehouse warehouse = new Warehouse();
-        warehouse.setIngredient(ingredientController.findByName("water"));
-        warehouse.setQuantity(150F);
-        warehouse.setMeasure(Measures.LITER);
 
-        Warehouse warehouse1 = new Warehouse();
-        warehouse1.setIngredient(ingredientController.findByName("rice"));
-        warehouse1.setQuantity(3F);
-        warehouse1.setMeasure(Measures.KG);
-
-        warehouseController.create(warehouse);
-        warehouseController.create(warehouse1);
         System.out.println("All ingredients in warehouse : ");warehouseController.findAll().forEach(System.out::println);
-//        warehouseController.changeQuantityOfIngredients("water", 200F);
-        System.out.println(warehouseController.findByName("rice"));
-        System.out.println(warehouseController.findEndsIngredients());
+        warehouseController.changeQuantityOfIngredients(2L, 5F);
+        System.out.println("By name :" + warehouseController.findByName("rice"));
+        System.out.println("Ingredients are less then 10 :" + warehouseController.findEndsIngredients());
 //        warehouseController.remove(warehouseController.findByName("rice"));
 
-//        orderController.findOpenedOrders();
-//        orderController.findClosedOrders();
+
         System.out.println("--------------------With inheritance-------------------------------");
 
 
@@ -181,7 +174,12 @@ public class Main {
         orderController.addNewOrder(orderController.createOrder("Hector",dishesForHector,10));
         System.out.println("Order created");
 //
-//        orderController.closeOrder(orderController.findById(5L));
+        orderController.closeOrder(orderController.findById(3L));
+
+        System.out.println("test");
+//        Dish dish = dishController.getDishByName("Plov");
+//        List<Ingredient> ingr = dish.getIngredients();
+//        ingr.forEach(System.out::println);
 
     }
 

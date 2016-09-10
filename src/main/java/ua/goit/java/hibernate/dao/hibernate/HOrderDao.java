@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.java.hibernate.dao.OrderDao;
-import ua.goit.java.hibernate.model.Dish;
-import ua.goit.java.hibernate.model.Orders;
-import ua.goit.java.hibernate.model.PreparedDish;
+import ua.goit.java.hibernate.dao.WarehouseDao;
+import ua.goit.java.hibernate.model.*;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 
 public class HOrderDao implements OrderDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private WarehouseDao warehouseDao;
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
@@ -69,18 +71,46 @@ public class HOrderDao implements OrderDao {
             List<PreparedDish> allPreparedDishes = new ArrayList<>();
 
             for (Dish dish : order.getDishes()) {
+                checkIngredientsInWarehouse(dish); // validation
                 PreparedDish preparedDish = new PreparedDish();
                 preparedDish.setDish(dish);
                 preparedDish.setDate(order.getOrderDate());
                 preparedDish.setCooker(dish.getCooker());
 
+
                 allPreparedDishes.add(preparedDish);
             }
+
 
             order.setPreparedDishes(allPreparedDishes);
             sessionFactory.getCurrentSession().saveOrUpdate(order);
         }
     }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void checkIngredientsInWarehouse(Dish dish){
+
+        List<Ingredient> ingredientsInDish  = dish.getIngredients();
+        for (Ingredient ingredient : ingredientsInDish) {
+
+            Warehouse warehouse = warehouseDao.getWarehouseIngredientById(ingredient.getId());
+            Float warehouseIngredientQuantity = warehouse.getQuantity();
+
+            Float newQuantity = warehouseIngredientQuantity - 1F;
+
+
+            if (newQuantity > 0 || newQuantity == 0){
+                warehouseDao.changeQuantityOfIngredients(ingredient.getId(), newQuantity);
+
+            }else {
+                System.out.println("Ingredient quantity = " + warehouseIngredientQuantity +
+                        "." + "Please prepare order to deliver " + warehouse.getIngredient().getName());
+
+            }
+
+        }
+    }
+
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
