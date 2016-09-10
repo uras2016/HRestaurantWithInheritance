@@ -104,7 +104,7 @@ public class HOrderDao implements OrderDao {
 
             }else {
                 System.out.println("Ingredient quantity = " + warehouseIngredientQuantity +
-                        "." + "Please prepare order to deliver" + warehouse.getIngredient().getName());
+                        "." + "Please prepare order to deliver " + warehouse.getIngredient().getName());
 
             }
 
